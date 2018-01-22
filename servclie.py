@@ -79,7 +79,7 @@ def client_handler(client_socket):
                 
                 while True:
                         # show a simple prompt
-                        client_socket.send("<BHP:#> ")
+                        client_socket.send("<NCP:#> ")
                         
                         # now we receive until we see a linefeed (enter key)
                         cmd_buffer = ""
@@ -158,8 +158,7 @@ def client_sender(buffer):
         except:
                 # just catch generic errors - you can do your homework to beef this up
                 print "[*] Exception! Exiting."
-                
-                # teardown the connection                  
+
                 client.close()  
                         
                         
@@ -168,7 +167,7 @@ def client_sender(buffer):
 def usage():
         print "Netcat Replacement"
         print
-        print "Usage: bhpnet.py -t target_host -p port"
+        print "Usage: ncpnet.py -t target_host -p port"
         print "-l --listen                - listen on [host]:[port] for incoming connections"
         print "-e --execute=file_to_run   - execute the given file upon receiving a connection"
         print "-c --command               - initialize a command shell"
@@ -176,10 +175,10 @@ def usage():
         print
         print
         print "Examples: "
-        print "bhpnet.py -t 192.168.0.1 -p 5555 -l -c"
-        print "bhpnet.py -t 192.168.0.1 -p 5555 -l -u=c:\\target.exe"
-        print "bhpnet.py -t 192.168.0.1 -p 5555 -l -e=\"cat /etc/passwd\""
-        print "echo 'ABCDEFGHI' | ./bhpnet.py -t 192.168.11.12 -p 135"
+        print "ncpnet.py -t 192.168.0.1 -p 5555 -l -c"
+        print "ncpnet.py -t 192.168.0.1 -p 5555 -l -u=c:\\target.exe"
+        print "ncpnet.py -t 192.168.0.1 -p 5555 -l -e=\"cat /etc/passwd\""
+        print "echo 'ABCDEFGHI' | ./ncpnet.py -t 192.168.11.12 -p 135"
         sys.exit(0)
 
 
@@ -223,18 +222,12 @@ def main():
 
         # are we going to listen or just send data from stdin
         if not listen and len(target) and port > 0:
-                
-                # read in the buffer from the commandline
-                # this will block, so send CTRL-D if not sending input
-                # to stdin
+
                 buffer = sys.stdin.read()
                 
-                # send data off
+
                 client_sender(buffer)   
-        
-        # we are going to listen and potentially 
-        # upload things, execute commands and drop a shell back
-        # depending on our command line options above
+
         if listen:
                 server_loop()
 
